@@ -45,33 +45,25 @@ def deleteElement():
 
 def updateElement():
     name = input("Please enter the name of the student to be updated: ")
-    updatePosition = -1
-    for item in list:
-        if name == item["name"]:
-            updatePosition = list.index(item)
-            break
-    if updatePosition == -1:
-        print("Element was not found")
+
+    student = next((item for item in list if item["name"] == name), None)
+    
+    if not student:
+        print("Element was not found.")
         return
-    
+
     print("Leave the field blank if you don't want to update it.")
-    phone = input(f"Enter new phone (current: {list[updatePosition]['phone']}): ") or list[updatePosition]['phone']
-    email = input(f"Enter new email (current: {list[updatePosition]['email']}): ") or list[updatePosition]['email']
-    address = input(f"Enter new address (current: {list[updatePosition]['address']}): ") or list[updatePosition]['address']
+    phone = input(f"Enter new phone (current: {student['phone']}): ") or student['phone']
+    email = input(f"Enter new email (current: {student['email']}): ") or student['email']
+    address = input(f"Enter new address (current: {student['address']}): ") or student['address']
+
+    student.update({"phone": phone, "email": email, "address": address})
+
+    list.sort(key=lambda x: x["name"])
     
-    updatedItem = {"name": name, "phone": phone, "email": email, "address": address}
-
-    del list[updatePosition]
-
-    insertPosition = 0
-    for item in list:
-        if name > item["name"]:
-            insertPosition += 1
-        else:
-            break
-    list.insert(insertPosition, updatedItem)
     print(f"Information about {name} has been updated.")
     return
+
 
 def main():
     while True:
