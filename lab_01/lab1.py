@@ -11,12 +11,16 @@ def printAllList():
         print(strForPrint)
     return
 
-def addNewElement():
-    name = input("Pease enter student name: ")
-    phone = input("Please enter student phone: ")
-    email = input("Please enter student email: ")
-    address = input("Please enter student address: ")
-    
+def addNewElement(name=None, phone=None, email=None, address=None):
+    if name is None:
+        name = input("Please enter student name: ")
+    if phone is None:
+        phone = input("Please enter student phone: ")
+    if email is None:
+        email = input("Please enter student email: ")
+    if address is None:
+        address = input("Please enter student address: ")
+
     newItem = {"name": name, "phone": phone, "email": email, "address": address}
 
     insertPosition = 0
@@ -29,19 +33,14 @@ def addNewElement():
     print("New element has been added")
     return
 
-def deleteElement():
-    name = input("Please enter name to be deleted: ")
+def deleteElementByName(name):
     deletePosition = -1
     for item in list:
         if name == item["name"]:
             deletePosition = list.index(item)
             break
-    if deletePosition == -1:
-        print("Element was not found")
-    else:
+    if deletePosition != -1:
         del list[deletePosition]
-        print(f"Element with name {name} has been deleted.")
-    return
 
 def updateElement():
     name = input("Please enter the name of the student to be updated: ")
@@ -53,17 +52,17 @@ def updateElement():
         return
 
     print("Leave the field blank if you don't want to update it.")
+    new_name = input(f"Enter new name (current: {student['name']}): ") or student['name']
     phone = input(f"Enter new phone (current: {student['phone']}): ") or student['phone']
     email = input(f"Enter new email (current: {student['email']}): ") or student['email']
     address = input(f"Enter new address (current: {student['address']}): ") or student['address']
 
-    student.update({"phone": phone, "email": email, "address": address})
+    deleteElementByName(name)
 
-    list.sort(key=lambda x: x["name"])
-    
+    addNewElement(new_name, phone, email, address)
+
     print(f"Information about {name} has been updated.")
     return
-
 
 def main():
     while True:
@@ -79,7 +78,8 @@ def main():
                 printAllList()
             case "D" | "d":
                 print("Element will be deleted:")
-                deleteElement()
+                name_to_delete = input("Please enter name to be deleted: ")
+                deleteElementByName(name_to_delete)
                 printAllList()
             case "P" | "p":
                 print("List will be printed:")
