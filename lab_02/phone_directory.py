@@ -88,7 +88,7 @@ def updateElement():
 
 def main():
     if len(sys.argv) > 1:
-        load_from_csv(sys.argv[1])
+        loadFromCsv(sys.argv[1])
     
     while True:
         choice = input("Please specify the action [ C create, U update, D delete, P print, X exit ]: ")
@@ -111,7 +111,7 @@ def main():
                 printAllList()
             case "X" | "x":
                 if len(sys.argv) > 1:
-                    save_to_csv(sys.argv[1])
+                    saveToCsv(sys.argv[1])
                 print("Exit()")
                 break
             case _:
